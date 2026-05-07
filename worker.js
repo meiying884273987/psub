@@ -2924,7 +2924,14 @@ var src_default = {
     const subDir = "subscription";
     const pathSegments = url.pathname.split("/").filter((segment) => segment.length > 0);
     if (pathSegments.length === 0) {
-      const response = await fetch(frontendUrl);
+      const response = await fetch(frontendUrl, {
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+        cf: {
+          cacheTtl: 0,
+        },
+      });
       if (response.status !== 200) {
         return new Response('Failed to fetch frontend', { status: response.status });
       }
